@@ -59,12 +59,12 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
+-- The Definition is done such that it is function and operational with no syntax or logic errors --
 
 ### Product Backlog
 
-| Id | Feature title | Who? | Start | End | Status |
-|:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
-
-
+| Id |            Feature title              |  Who?  |    Start   |     End     | Status |
+|:--:|---------------------------------------|--------|------------|-------------|--------|
+|F01 | Make Vertices Appear With No Over Lap | Aman   | 02/17/2023 | 02/17/2023  |    D   |
+|F02 | Draw Lines                            | Yousef | 02/17/2023 |             |    P   |
+|F03 | Draw Lines With Average Color         | Pranav | 02/17/2023 |             |    P   |
