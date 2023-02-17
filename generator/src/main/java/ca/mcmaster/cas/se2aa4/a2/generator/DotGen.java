@@ -65,8 +65,11 @@ public class DotGen {
     private void createHorizontalLines(int i, ArrayList<Vertex> verticesWithColors, ArrayList<Segment> segments) {
         //Create row segments, check if a right vertices exists
         if(i + 25 < verticesWithColors.size()){
+            //Create property 
+            Property color = createColor(i, verticesWithColors);
+
             //Set vertices to connect
-            Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+25).build();
+            Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+25).addProperties(color).build();
 
             //Add segment to list
             segments.add(seg);
@@ -76,10 +79,47 @@ public class DotGen {
     private void createVerticalLines(int i, ArrayList<Vertex> verticesWithColors, ArrayList<Segment> segments) {
         //Create column segements, checkif bottom vertices exist.
         if(((i+1)%25 != 0)){
+            //Create property 
+            Property color = createColor(i, verticesWithColors);
+
             //set verticesto connect
-            Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
+            Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).addProperties(color).build();
             //add segement to list
             segments.add(seg);
         }
     }
+
+    private Property createColor(int i, ArrayList<Vertex> verticesWithColors){
+        Color c1 = extractColor(verticesWithColors.get(i).getPropertiesList());
+        Color c2 = extractColor(verticesWithColors.get(i+1).getPropertiesList());
+
+        int [][] c = {
+                {c1.getRed(),c1.getGreen(), c1.getGreen()},
+                {c2.getRed(),c2.getGreen(), c2.getGreen()}
+        };
+        int [] average = new int [3];
+
+        for (int j = 0; j < average.length; j++){
+            average[j] = (int)((c[0][j]+c[1][j])/2.0);
+        }
+        String colorCode = average[0] + "," + average[1] + "," + average[2];
+        return Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+    }
+
+    private Color extractColor(List<Property> properties) {
+        String val = null;
+        for(Property p: properties) {
+            if (p.getKey().equals("rgb_color")) {
+                val = p.getValue();
+            }
+        }
+        if (val == null)
+            return Color.BLACK;
+        String[] raw = val.split(",");
+        int red = Integer.parseInt(raw[0]);
+        int green = Integer.parseInt(raw[1]);
+        int blue = Integer.parseInt(raw[2]);
+        return new Color(red, green, blue);
+    }
+
 }
