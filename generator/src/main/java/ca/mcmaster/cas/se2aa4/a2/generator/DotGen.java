@@ -55,6 +55,7 @@ public class DotGen {
         for(int i = 0; i < verticesWithColors.size()-1; i++){
             //Create Horizontal Lines
             createHorizontalLines(i, verticesWithColors, segments);
+            createVerticalLines(i, verticesWithColors, segments);
         }//end for loop
 
         //Add segments and vertices to the mesh
@@ -71,4 +72,14 @@ public class DotGen {
             segments.add(seg);
         }//end if
     }//end of createHorizontalLine
+
+    private void createVerticalLines(int i, ArrayList<Vertex> verticesWithColors, ArrayList<Segment> segments) {
+        //Create column segements, checkif bottom vertices exist.
+        if(((i+1)%25 != 0)){
+            //set verticesto connect
+            Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
+            //add segement to list
+            segments.add(seg);
+        }
+    }
 }
