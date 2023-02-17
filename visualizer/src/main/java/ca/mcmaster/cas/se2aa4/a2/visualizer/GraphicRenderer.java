@@ -24,16 +24,7 @@ public class GraphicRenderer {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
-        for (Vertex v: aMesh.getVerticesList()) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
-        }
-
+        //code to draw the lines
         ArrayList <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
         ArrayList <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
 
@@ -49,6 +40,17 @@ public class GraphicRenderer {
             Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
             canvas.draw(line);
         }
+        for (Vertex v: aMesh.getVerticesList()) {
+            double centre_x = v.getX() - (THICKNESS/2.0d);
+            double centre_y = v.getY() - (THICKNESS/2.0d);
+            Color old = canvas.getColor();
+            canvas.setColor(extractColor(v.getPropertiesList()));
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            canvas.fill(point);
+            canvas.setColor(old);
+        }
+
+        
     }
 
     private Color extractColor(List<Property> properties) {

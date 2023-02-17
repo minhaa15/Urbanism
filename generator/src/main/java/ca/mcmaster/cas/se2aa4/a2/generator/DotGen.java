@@ -44,9 +44,8 @@ public class DotGen {
         }
 
         ArrayList <Segment> segments = new ArrayList<>();
-
         int count = -1;
-
+        //code for right lines
         for(int i = 0; i < verticesWithColors.size()-1; i++){
             if((i)%24==0)count++;
             
@@ -73,10 +72,8 @@ public class DotGen {
                 Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+25).addProperties(color).build();
                 segments.add(seg);
             }
-
-            if((i%24 != 0)&&(i < (24 + (count*25)))){
-                System.out.println("KHEENCH: " + i + " " +(i+1) + " "  + (25 + (count*25)));
-
+            //code for bottom lines
+            if(((i+1)%25 != 0)){
                 Color c1 = extractColor(verticesWithColors.get(i).getPropertiesList());
                 Color c2 = extractColor(verticesWithColors.get(i+1).getPropertiesList());
 
@@ -84,22 +81,17 @@ public class DotGen {
                         {c1.getRed(),c1.getGreen(), c1.getGreen()},
                         {c2.getRed(),c2.getGreen(), c2.getGreen()}
                 };
-
                 int [] average = new int [3];
 
                 for (int j = 0; j < average.length; j++){
                     average[j] = (int)((c[0][j]+c[1][j])/2.0);
                 }
-
-                String colorCode = average[0] + "," + average[1] + "," + average[2];
-                // System.out.println("COLOR DOWN: " + colorCode);
-                
+                String colorCode = average[0] + "," + average[1] + "," + average[2];                
                 Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
                 Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).addProperties(color).build();
                 segments.add(seg);
             }
         }
-
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }
 
@@ -107,7 +99,6 @@ public class DotGen {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-//                System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
