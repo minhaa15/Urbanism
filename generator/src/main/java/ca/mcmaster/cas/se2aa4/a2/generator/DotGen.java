@@ -1,17 +1,17 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
-import java.util.ArrayList;
+import java.awt.*;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 public class DotGen {
 
@@ -20,25 +20,19 @@ public class DotGen {
     private final int square_size = 20;
 
     public Mesh generate() {
-//        Set<Vertex> vertices = new HashSet<>();
-
-        ArrayList <Vertex> vertices = new ArrayList<>();
-
+        ArrayList<Vertex> vertices = new ArrayList<>();        
         // Create all the vertices
         for(int x = 0; x < width; x += square_size) {
             for(int y = 0; y < height; y += square_size) {
                 vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
             }
         }
+
+        
         // Distribute colors randomly. Vertices are immutable, need to enrich them
-//        Set<Vertex> verticesWithColors = new HashSet<>();
+        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+        
         Random bag = new Random();
-
-        ArrayList <Vertex> vwc = new ArrayList<>();
-
         for(Vertex v: vertices){
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
@@ -46,15 +40,21 @@ public class DotGen {
             String colorCode = red + "," + green + "," + blue;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
-            vwc.add(colored);
+            verticesWithColors.add(colored);
         }
 
-        ArrayList <Vertex> verticesWithEverything = new ArrayList<>();
+        ArrayList <Segment> segments = new ArrayList<>();
 
-        for(int i = 0; i < vwc.size(); i++){
-            if(i + 26 < vwc.size()){
-                Color c1 = extractColor(vwc.get(i).getPropertiesList());
-                Color c2 = extractColor(vwc.get(i+26).getPropertiesList());
+        int count = -1;
+
+        for(int i = 0; i < verticesWithColors.size()-1; i++){
+            if((i)%24==0)count++;
+            
+            if(i + 25 < verticesWithColors.size()){
+                System.out.println("KHAINCH: " + i + " " +(i+25) + " "  + (25 + (count*25)));
+
+                Color c1 = extractColor(verticesWithColors.get(i).getPropertiesList());
+                Color c2 = extractColor(verticesWithColors.get(i+25).getPropertiesList());
 
                 int [][] c = {
                         {c1.getRed(),c1.getGreen(), c1.getGreen()},
@@ -68,15 +68,17 @@ public class DotGen {
                 }
 
                 String colorCode = average[0] + "," + average[1] + "," + average[2];
-                System.out.println("COLOR RIGHT: " + colorCode);
-                Property color = Property.newBuilder().setKey("color_right").setValue(colorCode).build();
-                Vertex colored = Vertex.newBuilder(vwc.get(i)).addProperties(color).build();
-                verticesWithEverything.add(colored);
+                // System.out.println("COLOR RIGHT: " + colorCode);
+                Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+                Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+25).addProperties(color).build();
+                segments.add(seg);
             }
 
-            if(i + 1 < 26){
-                Color c1 = extractColor(vwc.get(i).getPropertiesList());
-                Color c2 = extractColor(vwc.get(i+1).getPropertiesList());
+            if((i%24 != 0)&&(i < (24 + (count*25)))){
+                System.out.println("KHEENCH: " + i + " " +(i+1) + " "  + (25 + (count*25)));
+
+                Color c1 = extractColor(verticesWithColors.get(i).getPropertiesList());
+                Color c2 = extractColor(verticesWithColors.get(i+1).getPropertiesList());
 
                 int [][] c = {
                         {c1.getRed(),c1.getGreen(), c1.getGreen()},
@@ -90,14 +92,15 @@ public class DotGen {
                 }
 
                 String colorCode = average[0] + "," + average[1] + "," + average[2];
-                System.out.println("COLOR DOWN: " + colorCode);
-                Property color = Property.newBuilder().setKey("color_down").setValue(colorCode).build();
-                Vertex colored = Vertex.newBuilder(vwc.get(i)).addProperties(color).build();
-                verticesWithEverything.add(colored);
+                // System.out.println("COLOR DOWN: " + colorCode);
+                
+                Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+                Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).addProperties(color).build();
+                segments.add(seg);
             }
         }
 
-        return Mesh.newBuilder().addAllVertices(verticesWithEverything).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }
 
     private Color extractColor(List<Property> properties) {

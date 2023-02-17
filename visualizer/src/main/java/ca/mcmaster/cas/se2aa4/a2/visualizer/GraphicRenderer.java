@@ -3,14 +3,19 @@ package ca.mcmaster.cas.se2aa4.a2.visualizer;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 
 public class GraphicRenderer {
 
@@ -25,58 +30,31 @@ public class GraphicRenderer {
             Color old = canvas.getColor();
             canvas.setColor(extractColor(v.getPropertiesList()));
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            Rectangle2D lineRight = new Rectangle2D.Double(centre_x + THICKNESS, centre_y + 1, 20-THICKNESS, 1);
-            Rectangle2D lineDown = new Rectangle2D.Double(centre_x + 1, centre_y + THICKNESS, 1, 20-THICKNESS);
             canvas.fill(point);
-
-            canvas.setColor(extractLineRight(v.getPropertiesList()));
-            canvas.fill(lineRight);
-
-            canvas.setColor(extractLineDown(v.getPropertiesList()));
-            canvas.fill(lineDown);
             canvas.setColor(old);
         }
-    }
 
-    private Color extractLineRight(List<Property> properties) {
-        String val = null;
-        for(Property p: properties) {
-            if (p.getKey().equals("color_right")) {
-//                System.out.println(p.getValue());
-                val = p.getValue();
-            }
-        }
-        if (val == null)
-            return Color.BLACK;
-        String[] raw = val.split(",");
-        int red = Integer.parseInt(raw[0]);
-        int green = Integer.parseInt(raw[1]);
-        int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
-    }
+        ArrayList <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
+        ArrayList <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
 
-    private Color extractLineDown(List<Property> properties) {
-        String val = null;
-        for(Property p: properties) {
-            if (p.getKey().equals("color_down")) {
-//                System.out.println(p.getValue());
-                val = p.getValue();
-            }
+        System.out.println("ENTERED");
+
+        for (int x = 0; x < segmentList.size(); x++) {
+            double v1x = vertexList.get(segmentList.get(x).getV1Idx()).getX(), v1y = vertexList.get(segmentList.get(x).getV1Idx()).getY();
+            double v2x = vertexList.get(segmentList.get(x).getV2Idx()).getX(), v2y = vertexList.get(segmentList.get(x).getV2Idx()).getY();
+            
+            System.out.println("" + segmentList.get(x).getV1Idx() + ", " + segmentList.get(x).getV2Idx());
+
+            canvas.setColor(extractColor(segmentList.get(x).getPropertiesList()));
+            Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
+            canvas.draw(line);
         }
-        if (val == null)
-            return Color.BLACK;
-        String[] raw = val.split(",");
-        int red = Integer.parseInt(raw[0]);
-        int green = Integer.parseInt(raw[1]);
-        int blue = Integer.parseInt(raw[2]);
-        return new Color(red, green, blue);
     }
 
     private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-//                System.out.println(p.getValue());
                 val = p.getValue();
             }
         }
@@ -88,4 +66,5 @@ public class GraphicRenderer {
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
     }
+
 }
