@@ -54,57 +54,93 @@ public class DotGen {
         //code for right lines
         for(int i = 0; i < verticesWithColors.size()-1; i++){
             //Create Horizontal Lines
-            createHorizontalLines(i, verticesWithColors, segments);
-            createVerticalLines(i, verticesWithColors, segments);
+            if(createHorizontalLines(i, verticesWithColors) != null){
+                segments.add(createHorizontalLines(i, verticesWithColors));
+            }//end if
+            
+            //Create Vertical Lines
+            if(createVerticalLines(i, verticesWithColors) != null){
+                segments.add(createVerticalLines(i, verticesWithColors));
+            }//end if
         }//end for loop
 
         //Add segments and vertices to the mesh
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
     }//end of method generate
 
-    private void createHorizontalLines(int i, ArrayList<Vertex> verticesWithColors, ArrayList<Segment> segments) {
+    /**
+     * @param i
+     * @param verticesWithColors
+     * @return The horizontal segment connected to that vertex
+     */
+    private Segment createHorizontalLines(int i, ArrayList<Vertex> verticesWithColors) {
         //Create row segments, check if a right vertices exists
         if(i + 25 < verticesWithColors.size()){
             //Create property 
-            Property color = createColor(i, verticesWithColors);
+            Property color = createColor(i, 25, verticesWithColors);
 
             //Set vertices to connect
             Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+25).addProperties(color).build();
 
             //Add segment to list
-            segments.add(seg);
+            return seg;
         }//end if
+        return null;
     }//end of createHorizontalLine
 
-    private void createVerticalLines(int i, ArrayList<Vertex> verticesWithColors, ArrayList<Segment> segments) {
+    /**
+     * @param i - The Vertex to be dealt with 
+     * @param verticesWithColors - The the list of vertices
+     * @return The vertical segment connected to that vertex 
+     * This method is responsible for drawing the Vertical Lines
+     */
+    private Segment createVerticalLines(int i, ArrayList<Vertex> verticesWithColors) {
         //Create column segements, checkif bottom vertices exist.
         if(((i+1)%25 != 0)){
-            //Create property 
-            Property color = createColor(i, verticesWithColors);
+            //Create property color of segment
+            Property color = createColor(i, 1, verticesWithColors);
 
             //set verticesto connect
             Segment seg = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).addProperties(color).build();
+            
             //add segement to list
-            segments.add(seg);
-        }
-    }
+            return seg;
+        }//end if statment
+        
+        //Return null if no segement is to be made
+        return null;
+    }// end method createVerticalLines
 
-    private Property createColor(int i, ArrayList<Vertex> verticesWithColors){
+    /**
+     * @param i 
+     * @param verticesWithColors
+     * @return Property representing the average color
+     */
+    private Property createColor(int i, int increment, ArrayList<Vertex> verticesWithColors){
+        //Get color of the two vertices to be extracted
         Color c1 = extractColor(verticesWithColors.get(i).getPropertiesList());
-        Color c2 = extractColor(verticesWithColors.get(i+1).getPropertiesList());
+        Color c2 = extractColor(verticesWithColors.get(i+increment).getPropertiesList());
 
+        //Arrange RGB values of the two colors in array 
         int [][] c = {
                 {c1.getRed(),c1.getGreen(), c1.getGreen()},
                 {c2.getRed(),c2.getGreen(), c2.getGreen()}
         };
+
+        //Array to store average RGB values
         int [] average = new int [3];
 
+        //For loop to traverse through 'c' and store average value in R, G, B indicies of 'average'
         for (int j = 0; j < average.length; j++){
             average[j] = (int)((c[0][j]+c[1][j])/2.0);
-        }
+        }//end for loop
+        
+        //Store average RGB value in string 'colorCode'
         String colorCode = average[0] + "," + average[1] + "," + average[2];
+
+        //return Property
         return Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-    }
+    }//end method create color
 
     private Color extractColor(List<Property> properties) {
         String val = null;
@@ -120,6 +156,6 @@ public class DotGen {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         return new Color(red, green, blue);
-    }
+    }//end of method extractColor
 
 }

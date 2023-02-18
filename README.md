@@ -67,4 +67,4 @@ When you develop features and enrich the product, remember that you have first t
 |:--:|---------------------------------------|--------|------------|-------------|--------|
 |F01 | Draw Lines - Horizontal               | Aman   | 02/17/2023 | 02/17/2023  |    D   |
 |F02 | Draw Lines - Vertical                 | Yousef | 02/17/2023 | 02/17/2023  |    D   |
-|F03 | Draw Lines With Average Color         | Pranav | 02/17/2023 |             |    P   |
+|F03 | Draw Lines With Average Color         | Pranav | 02/17/2023 | 02/18/2023  |    D   |
