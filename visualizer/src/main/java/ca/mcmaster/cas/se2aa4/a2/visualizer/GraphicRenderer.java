@@ -127,6 +127,27 @@ public class GraphicRenderer {
                 canvas.fill(point);
                 canvas.setColor(old);
             }
+
+            Vertex v = vertexList.get(p.getCentroidIdx());
+            double centre_x = v.getX() - (THICKNESS/2.0d);
+            double centre_y = v.getY() - (THICKNESS/2.0d);
+            Color old = canvas.getColor();
+            canvas.setColor(new Color(255, 0, 0));
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            canvas.fill(point);
+            canvas.setColor(old);
+
+            //neighbours
+            List<Integer> neighbourIds = p.getNeighborIdxsList();
+
+            for(int n : neighbourIds){
+                Vertex nextCentroid = vertexList.get(polygonList.get(n).getCentroidIdx());
+                double v1x = v.getX(), v1y = v.getY();
+                double v2x = nextCentroid.getX(), v2y = nextCentroid.getY();
+                canvas.setColor(new Color(173, 173, 173));
+                Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
+                canvas.draw(line);
+            }
         }           
     }
 

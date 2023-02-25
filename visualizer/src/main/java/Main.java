@@ -10,6 +10,15 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        // variable to hold debug mode status
+        boolean debug = false;
+
+        //Finding if debug mode is asked for
+        for(String arg : args){
+            if(arg.equals("-X")){
+                debug = true;
+            }
+        }
         // Extracting command line parameters
         String input = args[0];
         String output = args[1];
@@ -25,7 +34,7 @@ public class Main {
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
         GraphicRenderer renderer = new GraphicRenderer();
         // Painting the mesh on the canvas
-        renderer.render(aMesh, canvas);
+        renderer.render(aMesh, canvas, debug);
         // Storing the result in an SVG file
         SVGCanvas.write(canvas, output);
         // Dump the mesh to stdout
