@@ -89,7 +89,7 @@ public class GraphicRenderer {
                 
                 System.out.println("Property LIST LENGTH" + s.getPropertiesList());
 
-                canvas.setColor(extractColor(s.getPropertiesList()));
+                canvas.setColor(segmentColor);
 
                 Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
                 canvas.draw(line);

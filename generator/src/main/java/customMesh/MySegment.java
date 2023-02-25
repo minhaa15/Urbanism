@@ -57,8 +57,9 @@ public class MySegment {
         int red = (int)((this.vertex1.getColor().getRed() + this.vertex2.getColor().getRed())/2);
         int green = (int)((this.vertex1.getColor().getGreen() + this.vertex2.getColor().getGreen())/2);
         int blue = (int)((this.vertex1.getColor().getBlue() + this.vertex2.getColor().getBlue())/2);
-        
-        color = new Color(red, blue, green);
+        int alpha = (int)((this.vertex1.getColor().getAlpha() + this.vertex2.getColor().getAlpha())/2);
+
+        color = new Color(red, blue, green, alpha);
     }//end of generateRandomColor
 
     public Color getColor(){

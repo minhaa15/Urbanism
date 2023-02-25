@@ -71,4 +71,4 @@ When you develop features and enrich the product, remember that you have first t
 |F04 | Draw Normally with ADT-(STEP#2 Start) | All         | 02/19/2023 | 02/24/2023  |    D   |
 |F05 | Draw With Degbug Mode                 | Aman/Pranav | 02/19/2023 | 02/24/2023  |    D   |
 |F06 | Control Thickness                     | Yousef      | 02/19/2023 | 02/24/2023  |    D   |
-|F07 | Control Transparency                  | Yousef      | 02/19/2023 |             |    P   |
+|F07 | Control Transparency                  | Yousef      | 02/19/2023 | 02/25/2023  |    D   |

@@ -55,7 +55,9 @@ public class MyVertex {
         int red = bag.nextInt(255);
         int green = bag.nextInt(255);
         int blue = bag.nextInt(255);
-        color = new Color(red, blue, green);
+        int alpha = bag.nextInt(255);
+
+        color = new Color(red, blue, green, alpha);
     }//end of generateRandomColor
 
     public Color getColor(){
@@ -63,7 +65,7 @@ public class MyVertex {
     }//end of getColor
 
     public void setColor(Color c){
-        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue());
+        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
     }//end setColor
 
 
