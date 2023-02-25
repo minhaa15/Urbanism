@@ -8,11 +8,16 @@ public class GridMesh extends MeshADT{
     private double width;
     private double height;
     private double squareSize;
-  
-    public GridMesh(double width, double height, double squareSize, int p){
+    private float lineThickness;
+    private float vertexThickness;
+
+
+    public GridMesh(double width, double height, double squareSize, int p, float vertexThickness, float lineThickness){
         this.width = width;
         this.height = height;
-        this.squareSize = squareSize;   
+        this.squareSize = squareSize; 
+        this.lineThickness = lineThickness;
+        this.vertexThickness = vertexThickness;  
       
         vertices = new ArrayList<>();
         segments = new ArrayList<>();
@@ -65,7 +70,7 @@ public class GridMesh extends MeshADT{
             int j = desiredYTraversal[count];
 
             //New Vertex with the id vertexCount 
-            MyVertex vertex = new MyVertex(newVertexCount, this.presicion);
+            MyVertex vertex = new MyVertex(newVertexCount, this.presicion, this.vertexThickness);
             
             //Set the vertex attributes
             vertex.setXPosition(actualX + (i*squareSize));
@@ -86,7 +91,7 @@ public class GridMesh extends MeshADT{
         }//end outer loop
 
         //centroid
-        MyVertex vertex = new MyVertex(newVertexCount, this.presicion);
+        MyVertex vertex = new MyVertex(newVertexCount, this.presicion, this.vertexThickness);
 
         //centroid x position
         double xSum = 0;
@@ -129,7 +134,7 @@ public class GridMesh extends MeshADT{
         //Loop to create segments
         for(int i = 0; i < pVerts.size()-1; i++){
             //Create a segment
-            MySegment newSegment = new MySegment(newSegmentCount);
+            MySegment newSegment = new MySegment(newSegmentCount, this.lineThickness);
 
             //set segment attributes
             newSegment.setVertex1(pVerts.get(i));
@@ -150,7 +155,7 @@ public class GridMesh extends MeshADT{
         }
 
         //create last segment
-        MySegment newSegment = new MySegment(newSegmentCount);
+        MySegment newSegment = new MySegment(newSegmentCount, this.lineThickness);
         newSegment.setVertex1(pVerts.get(pVerts.size()-1));
         newSegment.setVertex2(pVerts.get(0));
         newSegment.generateColor();

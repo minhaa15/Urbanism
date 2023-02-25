@@ -71,6 +71,15 @@ public class GraphicRenderer {
                 polySegments.add(s);
                 polyVert.add(s.getV1Idx());
 
+                float lineThickness = 0.5f; //default value for line thickness if none were provided
+                for(Property pr: s.getPropertiesList()) {
+                    if (pr.getKey().equals("lineThickness")) {
+                        lineThickness = Float.parseFloat(pr.getValue());
+                    }
+                }
+                Stroke stroke = new BasicStroke(lineThickness);
+                canvas.setStroke(stroke);
+
                 //draw the line
                 //Display Segments
                 double v1x = vertexList.get(s.getV1Idx()).getX(), v1y = vertexList.get(s.getV1Idx()).getY();
@@ -87,11 +96,18 @@ public class GraphicRenderer {
             }
         }
         for (Vertex v: aMesh.getVerticesList()) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
+            float vertexThickness = 3f; //default value for vertex thickness if none were provided
+            for(Property p: v.getPropertiesList()) {
+                if (p.getKey().equals("vertexThickness")) {
+                    vertexThickness = Float.parseFloat(p.getValue());
+                }
+            }
+            
+            double centre_x = v.getX() - (vertexThickness/2.0d);
+            double centre_y = v.getY() - (vertexThickness/2.0d);
             Color old = canvas.getColor();
             canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, vertexThickness, vertexThickness);
             canvas.fill(point);
             canvas.setColor(old);
         }

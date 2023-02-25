@@ -13,9 +13,10 @@ public class MyVertex {
     private float thickness;
 
 
-    public MyVertex(int id, int presicion){
+    public MyVertex(int id, int presicion, float thickness){
         this.id = id;
         this.presicion = presicion;
+        this.thickness = thickness;
     }//end of constructor
 
 
@@ -41,6 +42,14 @@ public class MyVertex {
         return this.id;
     }//end getId
 
+    public float getThickness(){
+        return this.thickness;
+    }
+
+    public void setThickness(float thickness){
+        this.thickness = thickness;
+    }
+
     public void generateRandomColor(){
         Random bag = new Random();
         int red = bag.nextInt(255);
@@ -61,7 +70,8 @@ public class MyVertex {
     public Vertex compile(){
         String colorCode = Functions.extractColor(this.color);
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        return Vertex.newBuilder().setX(xPosition).setY(yPosition).addProperties(color).build();
+        Property vertexThickness = Property.newBuilder().setKey("vertexThickness").setValue(String.valueOf(thickness)).build();
+        return Vertex.newBuilder().setX(xPosition).setY(yPosition).addProperties(color).addProperties(vertexThickness).build();
     }//end compile
 
     public boolean equals(MyVertex mv){

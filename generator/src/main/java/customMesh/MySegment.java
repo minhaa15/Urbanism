@@ -10,9 +10,12 @@ public class MySegment {
     private MyVertex vertex2;  
     private Color color; 
     private int id;
-    
-    public MySegment(int id){
+    private float thickness;
+
+    public MySegment(int id, float thickness){
         this.id = id;
+        this.thickness = thickness;
+
     }//end of constructor
 
     public int getId() {
@@ -34,11 +37,20 @@ public class MySegment {
     public void setVertex2(MyVertex vertex2) {
         this.vertex2 = vertex2;
     }
+
+    public float getThickness(){
+        return this.thickness;
+    }
+
+    public void setThickness(float thickness){
+        this.thickness = thickness;
+    }
  
     public Segment compile(){
         String colorCode = Functions.extractColor(this.color);
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        return Segment.newBuilder().setV1Idx(this.vertex1.getId()).setV2Idx(this.vertex2.getId()).addProperties(color).build(); 
+        Property lineThickness = Property.newBuilder().setKey("lineThickness").setValue(String.valueOf(thickness)).build();
+        return Segment.newBuilder().setV1Idx(this.vertex1.getId()).setV2Idx(this.vertex2.getId()).addProperties(color).addProperties(lineThickness).build(); 
     }//end Compile
 
     public void generateColor(){
