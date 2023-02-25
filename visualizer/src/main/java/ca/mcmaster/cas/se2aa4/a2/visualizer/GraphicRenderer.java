@@ -21,35 +21,6 @@ public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
     public void render(Mesh aMesh, Graphics2D canvas) {
-        canvas.setColor(Color.BLACK);
-        Stroke stroke = new BasicStroke(0.5f);
-        canvas.setStroke(stroke);
-        //code to draw the lines
-        ArrayList <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
-        ArrayList <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
-
-        System.out.println("ENTERED");
-
-        for (int x = 0; x < segmentList.size(); x++) {
-            double v1x = vertexList.get(segmentList.get(x).getV1Idx()).getX(), v1y = vertexList.get(segmentList.get(x).getV1Idx()).getY();
-            double v2x = vertexList.get(segmentList.get(x).getV2Idx()).getX(), v2y = vertexList.get(segmentList.get(x).getV2Idx()).getY();
-            
-            System.out.println("" + segmentList.get(x).getV1Idx() + ", " + segmentList.get(x).getV2Idx());
-
-            canvas.setColor(extractColor(segmentList.get(x).getPropertiesList()));
-            Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
-            canvas.draw(line);
-        }
-        for (Vertex v: aMesh.getVerticesList()) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
-            canvas.fill(point);
-            canvas.setColor(old);
-        }
-
         
     }
 
