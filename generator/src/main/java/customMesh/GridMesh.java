@@ -22,7 +22,7 @@ public class GridMesh extends MeshADT{
     @Override
     public void generate() {    
         //Variables to help keep track of id's of items adde
-        int polygonCount = 0;
+        int polygonCount = 0, vertexCount = 0, segmentCount = 0;
         
         //Figuring out height and width of the square
         int gridSquareWidth = (int)(this.width/this.squareSize);
@@ -39,8 +39,8 @@ public class GridMesh extends MeshADT{
                 //Create a new polgon
                 MyPolygon poly = new MyPolygon(polygonCount);
 
-                addVertices(poly, actualX, actualY);
-                addSegments(poly);
+                vertexCount = addVertices(poly, actualX, actualY, vertexCount);
+                segmentCount = addSegments(poly, segmentCount);
                 createNeighbors(poly, gridSquareHeight, gridSquareWidth);
 
                 poly.generateRandomColor();
@@ -51,8 +51,8 @@ public class GridMesh extends MeshADT{
         }//end for loop for rows
     }//end method generate
 
-    public void addVertices(MyPolygon poly, double actualX, double actualY){
-        int vertexCount = 0;
+    public int addVertices(MyPolygon poly, double actualX, double actualY, int vertexCount){
+        int newVertexCount = vertexCount;
 
         //This array is simply the order in which I want to add verticies to a square
         int [] desiredXTraversal = {0,0,1,1};
@@ -65,7 +65,7 @@ public class GridMesh extends MeshADT{
             int j = desiredYTraversal[count];
 
             //New Vertex with the id vertexCount 
-            MyVertex vertex = new MyVertex(vertexCount, this.presicion);
+            MyVertex vertex = new MyVertex(newVertexCount, this.presicion);
             
             //Set the vertex attributes
             vertex.setXPosition(actualX + (i*squareSize));
@@ -79,14 +79,14 @@ public class GridMesh extends MeshADT{
             if(exists == null){
                 this.addVertex(vertex);
                 poly.addVertexs(vertex);
-                vertexCount++;
+                newVertexCount++;
             }else{
                 poly.addVertexs(exists);
             }
         }//end outer loop
 
         //centroid
-        MyVertex vertex = new MyVertex(vertexCount, this.presicion);
+        MyVertex vertex = new MyVertex(newVertexCount, this.presicion);
 
         //centroid x position
         double xSum = 0;
@@ -113,21 +113,23 @@ public class GridMesh extends MeshADT{
         if(checkExists == null){
             this.addVertex(vertex);
             poly.setCentroidIndex(vertex.getId());
-            vertexCount++;
+            newVertexCount++;
         }else{
             poly.setCentroidIndex(checkExists.getId());
         }
+
+        return newVertexCount;
     }
 
-    public void addSegments(MyPolygon poly){
-        int segmentCount = 0;
+    public int addSegments(MyPolygon poly, int segmentCount){
+        int newSegmentCount = segmentCount;
         //stores a list of the vertices associated with this polygon
         List <MyVertex> pVerts = poly.getVertexs();
 
         //Loop to create segments
         for(int i = 0; i < pVerts.size()-1; i++){
             //Create a segment
-            MySegment newSegment = new MySegment(segmentCount);
+            MySegment newSegment = new MySegment(newSegmentCount);
 
             //set segment attributes
             newSegment.setVertex1(pVerts.get(i));
@@ -141,14 +143,14 @@ public class GridMesh extends MeshADT{
             if(exists == null){
                 this.addSegment(newSegment);
                 poly.addSegments(newSegment);
-                segmentCount++;
+                newSegmentCount++;
             }else{
                 poly.addSegments(exists);
             }
         }
 
         //create last segment
-        MySegment newSegment = new MySegment(segmentCount);
+        MySegment newSegment = new MySegment(newSegmentCount);
         newSegment.setVertex1(pVerts.get(pVerts.size()-1));
         newSegment.setVertex2(pVerts.get(0));
         newSegment.generateColor();
@@ -158,20 +160,19 @@ public class GridMesh extends MeshADT{
         if(exists == null){
             this.addSegment(newSegment);
             poly.addSegments(newSegment);
-            segmentCount++;
+            newSegmentCount++;
         }else{
             poly.addSegments(exists);
         }
         
+        return newSegmentCount;
     }
     public void createNeighbors(MyPolygon poly, int gridSquareHeight, int gridSquareWidth){
         if(poly.getId() - 1 > 0 && (((poly.getId())%gridSquareHeight != 0))){
-            System.out.println("--------" + poly.getId() + " " + (poly.getId() - 1));
             poly.addNeighbor(poly.getId() - 1);
         }
 
         if((poly.getId() + 1 < gridSquareHeight*gridSquareWidth) && (((poly.getId()+1)%gridSquareHeight != 0))){
-            System.out.println("--------" + poly.getId() + " " + (poly.getId() + 1));
             poly.addNeighbor(poly.getId() + 1);
         }
 

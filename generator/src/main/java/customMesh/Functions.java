@@ -2,6 +2,7 @@ package customMesh;
 import java.awt.Color;
 import java.util.List;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import java.util.Arrays;
 public class Functions {
     public static String extractColor(Color color){
         String rgb = color.getRed() + "," + color.getGreen()  + "," + color.getBlue() + "," + color.getAlpha();
