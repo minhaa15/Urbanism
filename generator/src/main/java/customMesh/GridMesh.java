@@ -20,6 +20,8 @@ public class GridMesh extends MeshADT{
         presicion = p;
     }//end constructor
     @Override
-    public void generate() {            
+    public void generate() {   
+
+             
     }//end method generate
 }//end of class gridMesh

@@ -63,8 +63,12 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Product Backlog
 
-| Id |            Feature title              |  Who?  |    Start   |     End     | Status |
-|:--:|---------------------------------------|--------|------------|-------------|--------|
-|F01 | Draw Lines - Horizontal               | Aman   | 02/17/2023 | 02/17/2023  |    D   |
-|F02 | Draw Lines - Vertical                 | Yousef | 02/17/2023 | 02/17/2023  |    D   |
-|F03 | Draw Lines With Average Color         | Pranav | 02/17/2023 | 02/18/2023  |    D   |
+| Id |            Feature title              |     Who?    |    Start   |     End     | Status |
+|:--:|---------------------------------------|-------------|------------|-------------|--------|
+|F01 | Draw Lines - Horizontal               | Aman        | 02/17/2023 | 02/17/2023  |    D   |
+|F02 | Draw Lines - Vertical                 | Yousef      | 02/17/2023 | 02/17/2023  |    D   |
+|F03 | Draw Lines With Average Color         | Pranav      | 02/17/2023 | 02/18/2023  |    D   |
+|F04 | Draw Normally with ADT-(STEP#2 Start) | All         | 02/19/2023 |             |    P   |
+|F05 | Draw With Degbug Mode                 | Aman/Pranav | 02/19/2023 |             |    P   |
+|F06 | Control Thickness                     | Yousef      | 02/19/2023 |             |    P   |
+|F07 | Control Transparency                  | Yousef      | 02/19/2023 |             |    P   |
