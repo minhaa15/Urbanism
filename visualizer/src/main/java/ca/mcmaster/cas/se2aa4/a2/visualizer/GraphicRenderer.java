@@ -20,13 +20,19 @@ import java.awt.geom.Point2D;
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas) {
+    public void render(Mesh aMesh, Graphics2D canvas, boolean debug) {
 
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(0.5f);
         canvas.setStroke(stroke);
-        drawNormal(aMesh, canvas);
         
+
+        if(debug) {
+            drawDebug(aMesh, canvas);
+        }
+        else {
+            drawNormal(aMesh, canvas);
+        }        
     }
 
     private Color extractColor(List<Property> properties) {
@@ -81,6 +87,47 @@ public class GraphicRenderer {
             canvas.fill(point);
             canvas.setColor(old);
         }
+    }
+
+    private void drawDebug(Mesh aMesh, Graphics2D canvas) {
+        List <Polygon> polygonList = new ArrayList<>(aMesh.getPolygonsList());
+        List <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
+        List <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
+
+        for(Polygon p : polygonList){ 
+            List <Integer> polySegs = p.getSegmentIdxsList();
+            List <Integer> polyVert = new ArrayList<>();
+
+            List <Segment> polySegments  = new ArrayList<>();
+    
+            
+            for(int i : polySegs){
+                Segment s = segmentList.get(i);
+                polySegments.add(s);
+                polyVert.add(s.getV1Idx());
+
+                //draw the line
+                //Display Segments
+                double v1x = vertexList.get(s.getV1Idx()).getX(), v1y = vertexList.get(s.getV1Idx()).getY();
+                double v2x = vertexList.get(s.getV2Idx()).getX(), v2y = vertexList.get(s.getV2Idx()).getY();
+                canvas.setColor(new Color(0, 0, 0));
+                Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
+                canvas.draw(line);
+                //
+            }
+
+
+            for (int i: polyVert) {
+                Vertex v = vertexList.get(i);
+                double centre_x = v.getX() - (THICKNESS/2.0d);
+                double centre_y = v.getY() - (THICKNESS/2.0d);
+                Color old = canvas.getColor();
+                canvas.setColor(new Color(0, 0, 0));
+                Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+                canvas.fill(point);
+                canvas.setColor(old);
+            }
+        }           
     }
 
 }
