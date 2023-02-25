@@ -40,4 +40,16 @@ public class Functions {
         }
         return null;
     }
+
+    public static int findId(List <MyVertex> mv, MyVertex v){
+        int x = 0;
+        for(MyVertex i : mv){
+            if(i.equals(v)){
+                return x;
+            }
+            x++;
+        }
+        return -1;
+    }
 }
+

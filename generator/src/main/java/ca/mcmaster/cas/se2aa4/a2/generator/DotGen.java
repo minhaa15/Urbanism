@@ -22,9 +22,11 @@ public class DotGen {
     private final int percision = 2;
 
     public Mesh generate() {
-        GridMesh gridMesh = new GridMesh(width, height, square_size,percision);
-        gridMesh.generate();
+        // GridMesh gridMesh = new GridMesh(width, height, square_size,percision);
+        // gridMesh.generate();
 
-        return gridMesh.compile();
+        IrregularMesh im = new IrregularMesh(percision, 50, height, width);
+        im.generate();
+        return im.compile();
     }//end of method generate
 }//end of DotGen

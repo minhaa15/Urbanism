@@ -60,26 +60,26 @@ public class GraphicRenderer {
         List <Polygon> polygonList = new ArrayList<>(aMesh.getPolygonsList());
         List <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
         List <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
+        System.out.println("Pranav Look" + vertexList.size());
 
         for(Polygon p : polygonList){
             List <Integer> polySegs = p.getSegmentIdxsList();
             List <Integer> polyVert = new ArrayList<>();
             List <Segment> polySegments  = new ArrayList<>();
+            
 
             for(int i : polySegs){
                 Segment s = segmentList.get(i);
                 polySegments.add(s);
                 polyVert.add(s.getV1Idx());
 
+                System.out.println("PRANAV LOOK: " + s.getV1Idx() + " " + s.getV2Idx());
+
                 //draw the line
                 //Display Segments
                 double v1x = vertexList.get(s.getV1Idx()).getX(), v1y = vertexList.get(s.getV1Idx()).getY();
                 double v2x = vertexList.get(s.getV2Idx()).getX(), v2y = vertexList.get(s.getV2Idx()).getY();
-
-                Color segmentColor = extractColor(s.getPropertiesList());
-                
-                System.out.println("Property LIST LENGTH" + s.getPropertiesList());
-
+            
                 canvas.setColor(extractColor(s.getPropertiesList()));
 
                 Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
