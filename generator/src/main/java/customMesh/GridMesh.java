@@ -41,7 +41,8 @@ public class GridMesh extends MeshADT{
 
                 addVertices(poly, actualX, actualY);
                 addSegments(poly);
-                
+                createNeighbors(poly, gridSquareHeight, gridSquareWidth);
+
                 poly.generateRandomColor();
                 this.addPolygon(poly);
                 polygonCount++;
@@ -162,5 +163,24 @@ public class GridMesh extends MeshADT{
             poly.addSegments(exists);
         }
         
+    }
+    public void createNeighbors(MyPolygon poly, int gridSquareHeight, int gridSquareWidth){
+        if(poly.getId() - 1 > 0 && (((poly.getId())%gridSquareHeight != 0))){
+            System.out.println("--------" + poly.getId() + " " + (poly.getId() - 1));
+            poly.addNeighbor(poly.getId() - 1);
+        }
+
+        if((poly.getId() + 1 < gridSquareHeight*gridSquareWidth) && (((poly.getId()+1)%gridSquareHeight != 0))){
+            System.out.println("--------" + poly.getId() + " " + (poly.getId() + 1));
+            poly.addNeighbor(poly.getId() + 1);
+        }
+
+        if(poly.getId() - gridSquareHeight > 0){
+            poly.addNeighbor(poly.getId() - gridSquareHeight);
+        }
+
+        if(poly.getId() + gridSquareHeight < gridSquareHeight*gridSquareWidth){
+            poly.addNeighbor(poly.getId() + gridSquareHeight);
+        }
     }
 }//end of class gridMesh
