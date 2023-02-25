@@ -40,6 +40,7 @@ public class GridMesh extends MeshADT{
                 MyPolygon poly = new MyPolygon(polygonCount);
 
                 addVertices(poly, actualX, actualY);
+                addSegments(poly);
                 
                 poly.generateRandomColor();
                 this.addPolygon(poly);
@@ -49,7 +50,7 @@ public class GridMesh extends MeshADT{
         }//end for loop for rows
     }//end method generate
 
-     public void addVertices(MyPolygon poly, int actualX, int actualY){
+    public void addVertices(MyPolygon poly, double actualX, double actualY){
         int vertexCount = 0;
 
         //This array is simply the order in which I want to add verticies to a square
@@ -84,7 +85,7 @@ public class GridMesh extends MeshADT{
         }//end outer loop
 
         //centroid
-        MyVertex vertex = new MyVertex(vertexCount, this.presicion, this.vertexThickness);
+        MyVertex vertex = new MyVertex(vertexCount, this.presicion);
 
         //centroid x position
         double xSum = 0;
@@ -115,5 +116,51 @@ public class GridMesh extends MeshADT{
         }else{
             poly.setCentroidIndex(checkExists.getId());
         }
+    }
+
+    public void addSegments(MyPolygon poly){
+        int segmentCount = 0;
+        //stores a list of the vertices associated with this polygon
+        List <MyVertex> pVerts = poly.getVertexs();
+
+        //Loop to create segments
+        for(int i = 0; i < pVerts.size()-1; i++){
+            //Create a segment
+            MySegment newSegment = new MySegment(segmentCount);
+
+            //set segment attributes
+            newSegment.setVertex1(pVerts.get(i));
+            newSegment.setVertex2(pVerts.get(i+1));
+            newSegment.generateColor();
+            
+            //Check is segment exists
+            MySegment exists = (Functions.exists(this.segments, newSegment));
+
+            //Descide whether to add new segment to mesh
+            if(exists == null){
+                this.addSegment(newSegment);
+                poly.addSegments(newSegment);
+                segmentCount++;
+            }else{
+                poly.addSegments(exists);
+            }
+        }
+
+        //create last segment
+        MySegment newSegment = new MySegment(segmentCount);
+        newSegment.setVertex1(pVerts.get(pVerts.size()-1));
+        newSegment.setVertex2(pVerts.get(0));
+        newSegment.generateColor();
+
+        MySegment exists = (Functions.exists(this.segments, newSegment));
+
+        if(exists == null){
+            this.addSegment(newSegment);
+            poly.addSegments(newSegment);
+            segmentCount++;
+        }else{
+            poly.addSegments(exists);
+        }
+        
     }
 }//end of class gridMesh
