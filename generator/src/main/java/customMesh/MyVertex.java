@@ -3,6 +3,7 @@ import java.util.Random;
 import java.awt.Color;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
+
 public class MyVertex {
 
     private double xPosition;
@@ -13,9 +14,10 @@ public class MyVertex {
     private float thickness;
 
 
-    public MyVertex(int id, int presicion){
+    public MyVertex(int id, int presicion, float thickness){
         this.id = id;
         this.presicion = presicion;
+        this.thickness = thickness;
     }//end of constructor
 
 
@@ -41,12 +43,22 @@ public class MyVertex {
         return this.id;
     }//end getId
 
+    public float getThickness(){
+        return this.thickness;
+    }
+
+    public void setThickness(float thickness){
+        this.thickness = thickness;
+    }
+
     public void generateRandomColor(){
         Random bag = new Random();
         int red = bag.nextInt(255);
         int green = bag.nextInt(255);
         int blue = bag.nextInt(255);
-        color = new Color(red, blue, green);
+        int alpha = bag.nextInt(255);
+
+        color = new Color(red, blue, green, alpha);
     }//end of generateRandomColor
 
     public Color getColor(){
@@ -54,14 +66,15 @@ public class MyVertex {
     }//end of getColor
 
     public void setColor(Color c){
-        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue());
+        this.color = new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
     }//end setColor
 
 
     public Vertex compile(){
         String colorCode = Functions.extractColor(this.color);
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        return Vertex.newBuilder().setX(xPosition).setY(yPosition).addProperties(color).build();
+        Property vertexThickness = Property.newBuilder().setKey("vertexThickness").setValue(String.valueOf(thickness)).build();
+        return Vertex.newBuilder().setX(xPosition).setY(yPosition).addProperties(color).addProperties(vertexThickness).build();
     }//end compile
 
     public boolean equals(MyVertex mv){

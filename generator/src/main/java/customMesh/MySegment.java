@@ -10,9 +10,12 @@ public class MySegment {
     private MyVertex vertex2;  
     private Color color; 
     private int id;
-    
-    public MySegment(int id){
+    private float thickness;
+
+    public MySegment(int id, float thickness){
         this.id = id;
+        this.thickness = thickness;
+
     }//end of constructor
 
     public int getId() {
@@ -34,19 +37,29 @@ public class MySegment {
     public void setVertex2(MyVertex vertex2) {
         this.vertex2 = vertex2;
     }
+
+    public float getThickness(){
+        return this.thickness;
+    }
+
+    public void setThickness(float thickness){
+        this.thickness = thickness;
+    }
  
     public Segment compile(){
         String colorCode = Functions.extractColor(this.color);
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        return Segment.newBuilder().setV1Idx(this.vertex1.getId()).setV2Idx(this.vertex2.getId()).addProperties(color).build(); 
+        Property lineThickness = Property.newBuilder().setKey("lineThickness").setValue(String.valueOf(thickness)).build();
+        return Segment.newBuilder().setV1Idx(this.vertex1.getId()).setV2Idx(this.vertex2.getId()).addProperties(color).addProperties(lineThickness).build(); 
     }//end Compile
 
     public void generateColor(){
         int red = (int)((this.vertex1.getColor().getRed() + this.vertex2.getColor().getRed())/2);
         int green = (int)((this.vertex1.getColor().getGreen() + this.vertex2.getColor().getGreen())/2);
         int blue = (int)((this.vertex1.getColor().getBlue() + this.vertex2.getColor().getBlue())/2);
-        
-        color = new Color(red, blue, green);
+        int alpha = (int)((this.vertex1.getColor().getAlpha() + this.vertex2.getColor().getAlpha())/2);
+
+        color = new Color(red, blue, green, alpha);
     }//end of generateRandomColor
 
     public Color getColor(){

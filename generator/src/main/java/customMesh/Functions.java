@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.util.List;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 public class Functions {
     public static String extractColor(Color color){
         String rgb = color.getRed() + "," + color.getGreen()  + "," + color.getBlue() + "," + color.getAlpha();
@@ -50,6 +52,21 @@ public class Functions {
             x++;
         }
         return -1;
+    }
+
+    public void findSegments(List <MyVertex> mv){
+        Collections.sort(mv, new Comparator<MyVertex>(){
+            @Override
+            public int compare(MyVertex v1, MyVertex v2) {
+                if (v1.getXPosition() < v2.getXPosition()) {
+                    return -1;
+                } else if (v1.getXPosition() > v2.getXPosition()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
     }
 }
 

@@ -60,7 +60,6 @@ public class GraphicRenderer {
         List <Polygon> polygonList = new ArrayList<>(aMesh.getPolygonsList());
         List <Segment> segmentList = new ArrayList<>(aMesh.getSegmentsList());
         List <Vertex> vertexList = new ArrayList<>(aMesh.getVerticesList());
-        System.out.println("Pranav Look" + vertexList.size());
 
         for(Polygon p : polygonList){
             List <Integer> polySegs = p.getSegmentIdxsList();
@@ -73,25 +72,43 @@ public class GraphicRenderer {
                 polySegments.add(s);
                 polyVert.add(s.getV1Idx());
 
-                System.out.println("PRANAV LOOK: " + s.getV1Idx() + " " + s.getV2Idx());
+                float lineThickness = 0.5f; //default value for line thickness if none were provided
+                for(Property pr: s.getPropertiesList()) {
+                    if (pr.getKey().equals("lineThickness")) {
+                        lineThickness = Float.parseFloat(pr.getValue());
+                    }
+                }
+                Stroke stroke = new BasicStroke(lineThickness);
+                canvas.setStroke(stroke);
 
                 //draw the line
                 //Display Segments
                 double v1x = vertexList.get(s.getV1Idx()).getX(), v1y = vertexList.get(s.getV1Idx()).getY();
                 double v2x = vertexList.get(s.getV2Idx()).getX(), v2y = vertexList.get(s.getV2Idx()).getY();
-            
+ 
                 canvas.setColor(extractColor(s.getPropertiesList()));
+
+                Color segmentColor = extractColor(s.getPropertiesList());
+                
+                canvas.setColor(segmentColor);
 
                 Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
                 canvas.draw(line);
             }
         }
         for (Vertex v: aMesh.getVerticesList()) {
-            double centre_x = v.getX() - (THICKNESS/2.0d);
-            double centre_y = v.getY() - (THICKNESS/2.0d);
+            float vertexThickness = 3f; //default value for vertex thickness if none were provided
+            for(Property p: v.getPropertiesList()) {
+                if (p.getKey().equals("vertexThickness")) {
+                    vertexThickness = Float.parseFloat(p.getValue());
+                }
+            }
+            
+            double centre_x = v.getX() - (vertexThickness/2.0d);
+            double centre_y = v.getY() - (vertexThickness/2.0d);
             Color old = canvas.getColor();
             canvas.setColor(extractColor(v.getPropertiesList()));
-            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
+            Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, vertexThickness, vertexThickness);
             canvas.fill(point);
             canvas.setColor(old);
         }
@@ -105,7 +122,6 @@ public class GraphicRenderer {
         for(Polygon p : polygonList){ 
             List <Integer> polySegs = p.getSegmentIdxsList();
             List <Integer> polyVert = new ArrayList<>();
-
             List <Segment> polySegments  = new ArrayList<>();
     
             
@@ -114,14 +130,12 @@ public class GraphicRenderer {
                 polySegments.add(s);
                 polyVert.add(s.getV1Idx());
 
-                //draw the line
                 //Display Segments
                 double v1x = vertexList.get(s.getV1Idx()).getX(), v1y = vertexList.get(s.getV1Idx()).getY();
                 double v2x = vertexList.get(s.getV2Idx()).getX(), v2y = vertexList.get(s.getV2Idx()).getY();
                 canvas.setColor(new Color(0, 0, 0));
                 Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
                 canvas.draw(line);
-                //
             }
 
 
@@ -147,6 +161,8 @@ public class GraphicRenderer {
 
             //neighbours
             List<Integer> neighbourIds = p.getNeighborIdxsList();
+
+            System.out.println("Neighbour size: "  + neighbourIds.size());
 
             for(int n : neighbourIds){
                 Vertex nextCentroid = vertexList.get(polygonList.get(n).getCentroidIdx());

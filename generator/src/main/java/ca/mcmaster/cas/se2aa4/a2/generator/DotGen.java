@@ -20,12 +20,15 @@ public class DotGen {
     private final int height = 500;
     private final int square_size = 20;
     private final int percision = 2;
+    private final float vertexThickness = 3f;
+    private final float lineThickness = 0.5f;
+    private final int lloydRelaxation = 5;
 
     public Mesh generate() {
-        // GridMesh gridMesh = new GridMesh(width, height, square_size,percision);
+        // GridMesh gridMesh = new GridMesh(width, height, square_size,percision, vertexThickness, lineThickness);
         // gridMesh.generate();
 
-        IrregularMesh im = new IrregularMesh(percision, 50, height, width);
+        IrregularMesh im = new IrregularMesh(percision, 50, height, width, vertexThickness, lineThickness, lloydRelaxation);
         im.generate();
         return im.compile();
     }//end of method generate
