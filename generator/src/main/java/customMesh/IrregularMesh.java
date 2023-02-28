@@ -55,6 +55,14 @@ public class IrregularMesh extends MeshADT{
 
         //creates the oronoi diagram of the initial points created
         Geometry o1 = createVoronoi(coors);
+
+        //applies the loyd relaxation for the number of times specified in DotGen
+        List <Coordinate> newCoors = new ArrayList<>(getCentroidsCoors(o1, coors));
+        for (int i=0;i<this.lloydRelaxation;i++){
+            // System.out.printf("%d\n", i);
+            o1 = createVoronoi(newCoors);
+            newCoors = new ArrayList<>(getCentroidsCoors(o1, coors));
+        }
     }
     private List <Coordinate> createInitialPoints(){
         Random bag = new Random();
