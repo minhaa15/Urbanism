@@ -162,7 +162,7 @@ public class GraphicRenderer {
             //neighbours
             List<Integer> neighbourIds = p.getNeighborIdxsList();
 
-            System.out.println("Neighbour size: "  + neighbourIds.size());
+            // System.out.println("Neighbour size: "  + neighbourIds.size());
 
             for(int n : neighbourIds){
                 Vertex nextCentroid = vertexList.get(polygonList.get(n).getCentroidIdx());
