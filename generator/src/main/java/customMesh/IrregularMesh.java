@@ -49,5 +49,40 @@ public class IrregularMesh extends MeshADT{
 
     @Override
     public void generate() {
+        PrecisionModel pm = new PrecisionModel(Math.pow(10, (this.presicion)));
+        //creates the initial coordinates of the points on the canvas
+        List <Coordinate> coors = createInitialPoints();
+    }
+    private List <Coordinate> createInitialPoints(){
+        Random bag = new Random();
+        List <Coordinate> coors = new ArrayList<>();
+
+        for(int i = 0; i < this.numberOfPolygons; i++){
+            Coordinate c = new Coordinate();
+            c.setX(bag.nextDouble(0,width));
+            c.setY(bag.nextDouble(0,height));
+            coors.add(c);
+        }
+
+        return coors;
+    }
+    private List <Coordinate> getCentroidsCoors(Geometry g, List<Coordinate>originalCoors){
+        List <Coordinate> coors = new ArrayList<>();
+
+        List<Polygon> ps = new ArrayList<>();
+        for (int i = 0; i < g.getNumGeometries(); i++) {
+            Geometry geo = g.getGeometryN(i);
+            if (geo instanceof Polygon) {
+                ps.add((Polygon) geo);
+            }
+        }
+        for(Polygon p : ps){
+            Coordinate c = new Coordinate();
+            c.setX(p.getCentroid().getX());
+            c.setY(p.getCentroid().getY());
+            coors.add(c);
+            //}//end for loop
+        }
+        return coors;
     }
 }
