@@ -52,6 +52,9 @@ public class IrregularMesh extends MeshADT{
         PrecisionModel pm = new PrecisionModel(Math.pow(10, (this.presicion)));
         //creates the initial coordinates of the points on the canvas
         List <Coordinate> coors = createInitialPoints();
+
+        //creates the oronoi diagram of the initial points created
+        Geometry o1 = createVoronoi(coors);
     }
     private List <Coordinate> createInitialPoints(){
         Random bag = new Random();
@@ -66,6 +69,22 @@ public class IrregularMesh extends MeshADT{
 
         return coors;
     }
+
+    private Geometry createVoronoi(List <Coordinate> coors){
+        Geometry output;
+
+        VoronoiDiagramBuilder vdb = new VoronoiDiagramBuilder();
+        
+        vdb.setSites(coors);
+
+        output = vdb.getDiagram(new GeometryFactory(new PrecisionModel(100)));
+
+        Envelope env = new Envelope(0, this.width, 0, this.height);
+        Geometry cropped = output.intersection(new GeometryFactory().toGeometry(env));
+        
+        return cropped;
+    }
+    
     private List <Coordinate> getCentroidsCoors(Geometry g, List<Coordinate>originalCoors){
         List <Coordinate> coors = new ArrayList<>();
 
