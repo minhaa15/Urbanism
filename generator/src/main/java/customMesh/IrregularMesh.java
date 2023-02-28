@@ -78,6 +78,18 @@ public class IrregularMesh extends MeshADT{
                 centroidList.add(new Coordinate(((Polygon) geo).getCentroid().getX(), ((Polygon) geo).getCentroid().getY()));
             }
         }
+        //applies Delaunay triangulation 
+        DelaunayTriangulationBuilder dtb = new DelaunayTriangulationBuilder();
+        dtb.setSites(newCoors);
+        Geometry dtbOutput = dtb.getTriangles(new GeometryFactory(pm));
+
+        System.out.println("NUMBER OF TRIANGLES" + dtbOutput.getNumGeometries());
+
+        Map<Integer, List<Integer>> neighborMap = new HashMap<>();//hash map that stores ids of neighbour polygons
+        
+        generateNeighbours(setOfPolygons, neighborMap, dtbOutput);
+        
+        createPolygons(setOfPolygons, neighborMap, dtbOutput);
     }
     private List <Coordinate> createInitialPoints(){
         Random bag = new Random();
@@ -212,4 +224,114 @@ public class IrregularMesh extends MeshADT{
             polygonCount++;
         }
     }
+    private void generateNeighbours(List <Polygon> setOfPolygons,Map<Integer, List<Integer>> neighborMap, Geometry dtbOutput){
+        for (int i = 0; i < setOfPolygons.size(); i++) {
+            Polygon voronoiPolygon = setOfPolygons.get(i);
+        
+            List<Integer> neighbors = new ArrayList<>();
+
+            for (int j = 0; j < dtbOutput.getNumGeometries(); j++) {
+                Geometry triangle = dtbOutput.getGeometryN(j);
+                
+                Coordinate [] thisTriangleCoordinates = triangle.getCoordinates();
+
+                int target = 0; 
+                
+                boolean run = true;
+
+                for(Coordinate c : thisTriangleCoordinates){
+                    if(Double.compare(c.getX(), voronoiPolygon.getCentroid().getX())==0 && Double.compare(c.getY(), voronoiPolygon.getCentroid().getY())==0){
+                        
+                        if(target == 0){
+                            //System.out.println("ID: 0");
+                            List <Integer> ids = getIds(setOfPolygons, thisTriangleCoordinates[1], thisTriangleCoordinates[2], i);
+                            
+                            for(int id : ids){
+                                neighbors.add(id);
+                            }
+                        }else if(target == 1){
+                           //System.out.println("ID: 1");
+                            List <Integer> ids = getIds(setOfPolygons, thisTriangleCoordinates[0], thisTriangleCoordinates[2], i);
+                            for(int id : ids){
+                                neighbors.add(id);
+                            }    
+                        }else{
+                            //System.out.println("ID: 2");
+                            List <Integer> ids = getIds(setOfPolygons, thisTriangleCoordinates[0], thisTriangleCoordinates[1], i);
+                            for(int id : ids){
+                                neighbors.add(id);
+                            }    
+                        }
+                        run = false;
+                        break;
+                    } 
+                    target++;
+                    if(!run)break;
+                }
+
+                neighborMap.put(i,neighbors);
+            }
+        }
+    }
+    private List<Integer> getIds(List <Polygon> ps, Coordinate c1, Coordinate c2, int target){
+        List <Integer> ids = new ArrayList<>();
+        Polygon targetPolygon = ps.get(target);
+        Coordinate [] targetPolygonVertices = targetPolygon.getCoordinates();
+
+        int polyIndex = 0;
+
+        for(Polygon p : ps){
+            if(Double.compare(p.getCentroid().getX(), c1.getX())==0 && Double.compare(p.getCentroid().getY(), c1.getY())==0){
+                ids.add(polyIndex);
+            }
+
+            polyIndex++;
+        }
+
+        polyIndex = 0;
+
+        for(Polygon p : ps){
+            if(Double.compare(p.getCentroid().getX(), c2.getX())==0 && Double.compare(p.getCentroid().getY(), c2.getY())==0){
+                ids.add(polyIndex);
+            }
+            polyIndex++;
+        }
+        int counter = 0;
+        for(int x = 0; x < ids.size(); x++){
+            //System.out.println(ids.get(x));
+            Polygon test = ps.get(ids.get(x));
+            Coordinate [] testCoors = test.getCoordinates();
+
+            boolean b = false;
+
+            for(int i = 0; i < targetPolygonVertices.length-1; i++){
+                for(int j = 0; j < testCoors.length-1; j++){
+                    if((targetPolygonVertices[i].equals2D(testCoors[j], 0.01))){
+                        if((targetPolygonVertices[i+1].equals2D(testCoors[j+1], 0.01))){
+                            b = true;
+                        }
+                    }else if ((targetPolygonVertices[i].equals2D(testCoors[j+1], 0.01))){
+                        if((targetPolygonVertices[i+1].equals2D(testCoors[j], 0.01))){
+                            b = true;
+                        }
+                    }   
+                }
+            }        
+            if((targetPolygonVertices[0].equals2D(testCoors[0], 0.01))){
+                if ((targetPolygonVertices[targetPolygonVertices.length - 1].equals2D(testCoors[testCoors.length - 1], 0.01))){
+                    b = true;
+                }  
+            }   
+            if ((targetPolygonVertices[0].equals2D(testCoors[testCoors.length - 1], 0.01))){
+                if((targetPolygonVertices[targetPolygonVertices.length - 1].equals2D(testCoors[0], 0.01))){
+                    b = true;
+                }
+            }
+            if(!b){
+                ids.remove(counter);
+            }
+            counter++;
+        }
+        return ids;
+    }   
 }

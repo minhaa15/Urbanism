@@ -73,6 +73,6 @@ When you develop features and enrich the product, remember that you have first t
 |F06 | Control Thickness                     | Yousef      | 02/19/2023 | 02/24/2023  |    D   |
 |F07 | Control Transparency                  | Yousef      | 02/19/2023 | 02/25/2023  |    D   |
 |F08 | Apache CLI                            | Pranav      | 02/25/2023 | 02/27/2023  |    D   |
-|F09 | Initial Vornoi                        | Yousef/Aman | 02/25/2023 | 02/27/2023  |    P   |
-|F10 | Relexation                            | Pranav      | 02/25/2023 | 02/27/2023  |    P   |
-|F11 | Triangulation                         | Yousef/Aman | 02/25/2023 | 02/27/2023  |    P   |
+|F09 | Initial Vornoi                        | Yousef/Aman | 02/25/2023 | 02/27/2023  |    D   |
+|F10 | Relexation                            | Pranav      | 02/25/2023 | 02/27/2023  |    D   |
+|F11 | Triangulation                         | Yousef/Aman | 02/25/2023 | 02/27/2023  |    D   |
