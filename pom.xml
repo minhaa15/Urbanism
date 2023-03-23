@@ -16,6 +16,7 @@
         <module>generator</module>
         <module>io</module>
         <module>visualizer</module>
+		<module>island</module>
     </modules>
 
     <properties>
@@ -31,6 +32,7 @@
 			<scope>test</scope>            
 		</dependency>
     </dependencies>
+
 
     <dependencyManagement>
 		<dependencies>
