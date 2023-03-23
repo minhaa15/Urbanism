@@ -8,13 +8,15 @@ import meshcomponents.MyMesh;
 
 public class Main {
     public static void main(String [] args) throws IOException{
-        Structs.Mesh aMesh = new MeshFactory().read("img/irregular.mesh");
+        Configuration configuration = new Configuration(args);
+
+        Structs.Mesh aMesh = new MeshFactory().read(configuration.input());
 
         Extractor extractor = new Extractor(aMesh);
 
         MyMesh mesh = extractor.convert();
 
-        IslandGenerator islandGenerator = new IslandGenerator();
+        IslandGenerator islandGenerator = new IslandGenerator(configuration.export());
 
         islandGenerator.generate(mesh);
 
@@ -22,6 +24,6 @@ public class Main {
 
         Structs.Mesh exported = compiler.compile(mesh);
 
-        new MeshFactory().write(exported, "img/lagoon.mesh");
+        new MeshFactory().write(exported, configuration.output());
     }
 }

@@ -5,14 +5,9 @@ import java.util.Map;
 
 public class Configuration {
 
-    public static final String WIDTH = "w";
-    public static final String HEIGHT = "h";
-    public static final String KIND = "k";
-    public static final String NB_POLYGONS = "p";
-    public static final String SIZE_SQUARES = "s";
-    public static final String FILENAME = "o";
-    public static final String RELAXATION = "r";
-    public static final String DEMO = "d";
+    public static final String INPUT = "i";
+    public static final String OUTPUT = "o";
+    public static final String MODE = "mode";
     public static final String HELP = "help";
 
     private CommandLine cli;
@@ -50,20 +45,19 @@ public class Configuration {
         return new DefaultParser();
     }
 
+    public String input(){
+        return this.cli.getOptionValue(INPUT);
+    }
+
+    public String output(){
+        return this.cli.getOptionValue(OUTPUT, "island.mesh");
+    }
+
     private Options options() {
         Options options = new Options();
-        options.addOption(new Option(WIDTH, true, "Width of the Mesh"));
-        options.addOption(new Option(HEIGHT, true, "Heigth of the Mesh"));
-        options.addOption(new Option(FILENAME, true, "Output file name"));
-        options.addOption(new Option(FILENAME, true, "Output file name"));
-        options.addOption(new Option(KIND, true, "Kind: grid or irregular"));
-        // Regular mesh
-        options.addOption(new Option(SIZE_SQUARES, true, "Size of squares (if grid mesh)"));
-        // Irregular mesh
-        options.addOption(new Option(NB_POLYGONS, true, "Numbers of polygons (if irregular mesh"));
-        options.addOption(new Option(RELAXATION, true, "Relaxation coefficient"));
-        // Demo mode (filling the mesh with random properties
-        options.addOption(new Option(DEMO, false, "activate DEMO mode"));
+        options.addOption(new Option(INPUT, true, "Input file"));
+        options.addOption(new Option(OUTPUT, true, "Output file"));
+        options.addOption(new Option(MODE,"mode", true, "The mode of the mesh"));
         // Global help
         options.addOption(new Option(HELP, false, "print help message"));
         return options;

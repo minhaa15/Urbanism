@@ -44,6 +44,8 @@ public class Extractor {
         newMesh.setApproxCenterX((minX + maxX)/2.0);
         newMesh.setApproxCenterY((minY + maxY)/2.0);
 
+        System.out.println(newMesh.getApproxCenterX() + " KALSI " + newMesh.getApproxCenterY());
+
         return newMesh;
     }
 

@@ -7,7 +7,7 @@ java -jar generator/generator.jar -k irregular -h 1080 -w 1920 -p 1000 -s 20 -o 
 # ISLAND
 # java -jar island/island.jar -i input.mesh -o lagoon.mesh --mode lagoon
 
-java -jar island/island.jar
+java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode lagoon
 
 # java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid.svg
 # java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
