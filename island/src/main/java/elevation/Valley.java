@@ -12,21 +12,21 @@ import meshcomponents.MyPolygon;
 import meshcomponents.MySegment;
 import meshcomponents.MyVertex;
 
-public class Mountain extends Elevation{
+public class Valley extends Elevation{
     private double centreX;
     private double centreY;
     private int layers;
-    private double radius;
-    private double maxElevation;
+    private double slider;
+    private double minElevation;
 
-    public Mountain(double centreX, double centreY, int layers, double maxElevation){
+    public Valley(double centreX, double centreY, int layers, double minElevation){
         this.centreX = centreX;
         this.centreY = centreY;
         this.layers = layers;
-        this.maxElevation = maxElevation;
+        this.minElevation = minElevation;
 
         //set intial radius 100 as we want that much increatment of layers
-        this.radius = 50;
+        this.slider = this.centreX;
     }
 
     public void createElevation(MyMesh mesh){
@@ -42,24 +42,31 @@ public class Mountain extends Elevation{
                     vs.add(seg.getV2());
                 }
 
-                boolean result = inside(vs);
+                for(int j = 0; j < 2; j++){
+                    double temp = this.slider;
+                    this.slider -= (j*(-1*(temp - this.centreX) + this.centreX));
+                    boolean result = inside(vs);
 
-                if(result){
-                    mp.setElevation(maxElevation);
+                    if(result){
+                        mp.setElevation(minElevation);
 
-                    for(int x : mp.getSegments()){
-                        mesh.getSegments().get(x).setElevation(maxElevation);
+                        for(int x : mp.getSegments()){
+                            mesh.getSegments().get(x).setElevation(minElevation);
+                        }
+
+                        for(MyVertex mv : vs){
+                            mv.setElevation(minElevation);
+                        }
+                        // mp.setColor(new Color((i * 50), (i * 50), (i * 50)));
                     }
 
-                    for(MyVertex mv : vs){
-                        mv.setElevation(maxElevation);
-                    }
-                    // mp.setColor(new Color((i * 50), (i * 50), (i * 50)));
+                    this.slider = temp;
                 }
+
             }
 
-            this.maxElevation -= (this.maxElevation/this.layers);
-            this.radius += 50;
+            this.minElevation -= (this.minElevation/this.layers);
+            this.slider += 50;
         }
     }
 
@@ -68,11 +75,11 @@ public class Mountain extends Elevation{
         for(MyVertex v : vs){
             double radius = findRadius(v.getX(), v.getY(), this.centreX, this.centreY);
 
-            if(radius > this.radius){
+            if(radius > this.slider){
                 out = true;
             }
 
-            if(radius < this.radius){
+            if(radius < this.slider){
                 in = true;
             }
         }
