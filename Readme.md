@@ -49,3 +49,15 @@ biomes: kingsfort, macanada
 
 
 Note: PDF versions of the SVG files were created with `rsvg-convert`.
+
+| Id |    Feature title     |     Who?    |    Start   |     End     | Status |
+|:--:|----------------------|-------------|------------|-------------|--------|
+|F01 | Aquifrers            | Aman        | 03/18/2023 | 03/22/2023  |    D   |
+|F02 | Biomes               | Pranav      | 03/18/2023 | 03/26/2023  |    D   |
+|F03 | Polygon Colors       | Pranav      | 03/18/2023 | 03/22/2023  |    D   |
+|F04 | Elevation            | Yousef      | 03/18/2023 | 03/22/2023  |    D   |
+|F05 | Lakes                | Aman        | 03/18/2023 | 03/26/2023  |    D   |
+|F06 | Modes (lagoon, etc)  | Yousef      | 03/18/2023 | 03/26/2023  |    D   |
+|F07 | Rivers               | Yousef      | 03/18/2023 | 03/26/2023  |    D   |
+|F08 | Shapes               | Aman        | 03/18/2023 | 03/22/2023  |    D   |
+|F09 | Soil                 | Pranav      | 03/18/2023 | 03/26/2023  |    D   |
