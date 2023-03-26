@@ -33,4 +33,13 @@ mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o 
 mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
 ```
 
+Before running create img folder
+
+Shapes: circle, rectangle, triangle
+Mode: lagoon, custom
+Elevation Profiles: mountain, valley
+Soil Profiles: basicsoil, dessertsoil
+biomes: kingsfort, macanada
+
+
 Note: PDF versions of the SVG files were created with `rsvg-convert`.
