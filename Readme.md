@@ -22,6 +22,11 @@ mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 
 mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
 ```
 
+### generating island
+```
+java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape circle --lakes 10 --aquifiers 4 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1
+```
+
 One can run the generator with `-help` as option to see the different command line arguments that are available
 
 ### Visualizing a mesh, (regular or debug mode)
@@ -40,6 +45,7 @@ Mode: lagoon, custom
 Elevation Profiles: mountain, valley
 Soil Profiles: basicsoil, dessertsoil
 biomes: kingsfort, macanada
+
 
 
 Note: PDF versions of the SVG files were created with `rsvg-convert`.
