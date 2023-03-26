@@ -8,6 +8,14 @@ public class Configuration {
     public static final String INPUT = "i";
     public static final String OUTPUT = "o";
     public static final String MODE = "mode";
+    public static final String SHAPE = "shape";
+    public static final String ALTITUDE = "altitude";
+    public static final String RIVERS = "rivers";
+    public static final String LAKES = "lakes";
+    public static final String AQUIFIERS = "aquifiers";
+    public static final String SOIL = "soil";
+    public static final String BIOMES = "biomes";
+    public static final String SEED = "seed";
     public static final String HELP = "help";
 
     private CommandLine cli;
@@ -57,7 +65,17 @@ public class Configuration {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file"));
         options.addOption(new Option(OUTPUT, true, "Output file"));
+        options.addOption(new Option(SHAPE, "shape",true, "shape of the island"));
         options.addOption(new Option(MODE,"mode", true, "The mode of the mesh"));
+        options.addOption(new Option(ALTITUDE,"altitude", true, "The elevation profile of the mesh"));
+        options.addOption(new Option(RIVERS,"rivers", true, "The number of rivers in the mesh"));
+        options.addOption(new Option(LAKES,"lakes", true, "The number of lakes in the mesh"));
+        options.addOption(new Option(AQUIFIERS,"aquifiers", true, "The number of aquifiers in the mesh"));
+        options.addOption(new Option(SOIL,"soil", true, "The soil profile of the mesh"));
+        options.addOption(new Option(BIOMES,"biomes", true, "The whittaker diagram of the mesh"));
+        options.addOption(new Option(SEED,"seed", true, "The seed of the mesh"));
+
+
         // Global help
         options.addOption(new Option(HELP, false, "print help message"));
         return options;
