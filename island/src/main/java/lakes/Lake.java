@@ -21,9 +21,6 @@ public class Lake {
         List <Integer> nums = randomIsland(numberOfLakes, landTiles.size(), seed);
 
         for(int n : nums){
-            // System.out.println(seed);
-            // int target = randomIsland(landTiles.size(), seed);
-            // System.out.println(target);
             int size = lakeSize(seed);
 
             MyPolygon lake = landTiles.get(n);

@@ -1,4 +1,7 @@
 import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import converter.Compiler;
