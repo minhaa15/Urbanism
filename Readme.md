@@ -21,7 +21,7 @@ It creates two jars:
 mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/grid.mesh
 mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
 ```
-
+#### Before running create img folder
 ### generating island
 ```
 java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape circle --lakes 10 --aquifiers 4 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1
@@ -38,7 +38,7 @@ mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o 
 mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
 ```
 
-Before running create img folder
+
 
 Shapes: circle, rectangle, triangle
 Mode: lagoon, custom
