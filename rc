@@ -6,7 +6,7 @@ java -jar generator/generator.jar -k irregular -h 2000 -w 4000 -p 2000 -s 20 -o 
 
 # ISLAND
 # java -jar island/island.jar -i input.mesh -o lagoon.mesh --mode lagoon
-java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape triangle --lakes 10 --aquifiers 4 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1
+java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape triangle --lakes 3 --aquifiers 4 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1
 #java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape circle --lakes 3 --aquifiers 3 --soil basicsoil --biomes kingsfort --altitude mountain --rivers 3 --seed 1
 # java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid.svg
 # java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
