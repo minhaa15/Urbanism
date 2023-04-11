@@ -9,7 +9,6 @@ import static org.junit.Assert.*;
 
 public class ShortestPathFinderTest {
 
-
     public Graph graph;
     public ShortestPathFinder shortestPathFinder;
 
@@ -73,7 +72,56 @@ public class ShortestPathFinderTest {
         assertNull(shortestPath);
     }
 
+    @Test
+    public void testFindShortestPath_NotConnected() {
+        // Create nodes
+        Node a = new Node("A", "Node A", new HashMap<>());
+        Node b = new Node("B", "Node B", new HashMap<>());
+        Node c = new Node("C", "Node C", new HashMap<>());
+        Node d = new Node("D", "Node D", new HashMap<>());
+        // Create graph
+        Graph graph = new Graph();
+        graph.addNode(a);
+        graph.addNode(b);
+        graph.addNode(c);
+        graph.addNode(d);
 
+        graph.addEdge(a, b, 10, new HashMap<>());
+        graph.addEdge(b, d, 5, new HashMap<>());
+        graph.addEdge(c, d, 5, new HashMap<>());
+
+        // Create ShortestPathFinder instance
+        ShortestPathFinder finder = new ShortestPathFinder(graph);
+
+        // Test shortest path between two unconnected nodes
+        List<Node> shortestPath = finder.findShortestPath(a, c);
+
+        assertNull(shortestPath);
+    }
+
+    @Test
+    public void testFindShortestPathSameNode() {
+        // Create nodes
+        Node a = new Node("A", "Node A", new HashMap<>());
+        Node b = new Node("B", "Node B", new HashMap<>());
+
+        // Create graph
+        Graph graph = new Graph();
+        graph.addNode(a);
+        graph.addNode(b);
+
+        graph.addEdge(a, b, 5, new HashMap<>());
+
+        // Create ShortestPathFinder instance
+        ShortestPathFinder finder = new ShortestPathFinder(graph);
+
+        // Test shortest path from node A to node A
+        List<Node> shortestPath = finder.findShortestPath(a, a);
+
+        assertNotNull(shortestPath);
+        assertEquals(1, shortestPath.size());
+        assertEquals(a, shortestPath.get(0));
+    }
 
 }
 
