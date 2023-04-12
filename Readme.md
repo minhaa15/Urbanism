@@ -1,11 +1,11 @@
-# Mesh Generator (Assignment #2 Walkthrough)
+# A4 Urbanism
 
-  - Author: Sébastien Mosser
+  - Author: Amanbeer Minhas
 
 ## How to install?
 
 ```
-mosser@azrael A2 % mvn install
+%mvn install
 ```
 
 It creates two jars:
@@ -15,16 +15,17 @@ It creates two jars:
 
 ## Examples of execution
 
-### Generating a mesh, grid or irregular
+### Generating a mesh irregular
 
 ```
-mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/grid.mesh
-mosser@azrael A2 % java -jar generator/generator.jar -k grid -h 1080 -w 1920 -p 1000 -s 20 -o img/irregular.mesh
+
+java -jar generator/generator.jar -k irregular -h 2000 -w 4000 -p 2000 -s 20 -o img/irregular.mesh
+
 ```
-#### Before running create img folder
-### generating island
+
+### generating island with cities
 ```
-java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape circle --lakes 10 --aquifiers 4 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1
+java -jar island/island.jar -i img/irregular.mesh -o img/lagoon.mesh --mode custom --shape circle --lakes 3 --aquifiers 8 --soil dessertsoil --biomes macanada --altitude mountain --rivers 10 --seed 1 --cities 39
 ```
 
 One can run the generator with `-help` as option to see the different command line arguments that are available
@@ -32,10 +33,8 @@ One can run the generator with `-help` as option to see the different command li
 ### Visualizing a mesh, (regular or debug mode)
 
 ```
-mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid.svg          
-mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/grid.mesh -o img/grid_debug.svg -x
-mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg   
-mosser@azrael A2 % java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular_debug.svg -x
+java -jar visualizer/visualizer.jar -i img/lagoon.mesh -o img/irregular_debug.svg
+
 ```
 
 
@@ -48,16 +47,4 @@ biomes: kingsfort, macanada
 
 
 
-Note: PDF versions of the SVG files were created with `rsvg-convert`.
-
-| Id |    Feature title     |     Who?    |    Start   |     End     | Status |
-|:--:|----------------------|-------------|------------|-------------|--------|
-|F01 | Aquifrers            | Aman        | 03/18/2023 | 03/22/2023  |    D   |
-|F02 | Biomes               | Pranav      | 03/18/2023 | 03/26/2023  |    D   |
-|F03 | Polygon Colors       | Pranav      | 03/18/2023 | 03/22/2023  |    D   |
-|F04 | Elevation            | Yousef      | 03/18/2023 | 03/22/2023  |    D   |
-|F05 | Lakes                | Aman        | 03/18/2023 | 03/26/2023  |    D   |
-|F06 | Modes (lagoon, etc)  | Yousef      | 03/18/2023 | 03/26/2023  |    D   |
-|F07 | Rivers               | Yousef      | 03/18/2023 | 03/26/2023  |    D   |
-|F08 | Shapes               | Aman        | 03/18/2023 | 03/22/2023  |    D   |
-|F09 | Soil                 | Pranav      | 03/18/2023 | 03/26/2023  |    D   |
+### Backlog - Check Kanban 
