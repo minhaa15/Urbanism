@@ -32,7 +32,7 @@ public class Compiler {
         }
 
         return Mesh.newBuilder().addAllPolygons(polys).addAllVertices(vs).addAllSegments(segs).build();
-    }//end of method compile
+    }
 
     private Polygon compile(MyPolygon mp){
         if(mp.getColor() != null){
@@ -43,7 +43,7 @@ public class Compiler {
 
         return Polygon.newBuilder().addAllSegmentIdxs(mp.getSegments()).setCentroidIdx(mp.getCentroidId()).addAllNeighborIdxs(mp.getNeighbours()).build();
 
-    }//end of compile
+    }
 
     public Segment compile(MySegment ms){
         String weight = String.valueOf(ms.getWeight());
@@ -58,15 +58,19 @@ public class Compiler {
 
         return Segment.newBuilder().setV1Idx(ms.getV1().getId()).setV2Idx(ms.getV2().getId()).addProperties(weigh).build();
 
-    }//end Compile
+    }
 
     public Vertex compile(MyVertex mv){
+        Property citySize = Property.newBuilder().setKey("SizeOfCity").setValue(String.valueOf(mv.getCitySize())).build();
+        Property nextNode = Property.newBuilder().setKey("next_node").setValue(String.valueOf(mv.getNext())).build();
+
         if(mv.getColor() != null){
             String colorCode = mv.getColor().getRed() + "," + mv.getColor().getGreen() + "," + mv.getColor().getBlue();
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            return Vertex.newBuilder().setX(mv.getX()).setY(mv.getY()).addProperties(color).build();
+
+            return Vertex.newBuilder().setX(mv.getX()).setY(mv.getY()).addProperties(citySize).addProperties(nextNode).addProperties(color).build();
         }
 
-        return Vertex.newBuilder().setX(mv.getX()).setY(mv.getY()).build();
-    }//end compile
-}//end of class compiler
+        return Vertex.newBuilder().setX(mv.getX()).setY(mv.getY()).addProperties(citySize).addProperties(nextNode).build();
+    }
+}

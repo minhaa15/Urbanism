@@ -18,6 +18,8 @@ public class Configuration {
     public static final String SEED = "seed";
     public static final String HELP = "help";
 
+    public static final String CITIES = "cities";
+
     private CommandLine cli;
 
     public Configuration(String[] args) {
@@ -74,6 +76,7 @@ public class Configuration {
         options.addOption(new Option(SOIL,"soil", true, "The soil profile of the mesh"));
         options.addOption(new Option(BIOMES,"biomes", true, "The whittaker diagram of the mesh"));
         options.addOption(new Option(SEED,"seed", true, "The seed of the mesh"));
+        options.addOption(new Option(CITIES,"cities", true, "The number of cities"));
 
 
         // Global help

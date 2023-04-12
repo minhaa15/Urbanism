@@ -7,10 +7,31 @@ public class MyVertex {
     private double y; 
     private Color color;
     private double elevation;
+    private int citySize;
     private int id;
+
+    private int next;
 
     public MyVertex(){
         this.elevation = 0;
+        this.citySize = 0;
+        this.next = -1;
+    }
+
+    public int getNext() {
+        return next;
+    }
+
+    public void setNext(int next) {
+        this.next = next;
+    }
+
+    public void setCitySize(int citySize) {
+        this.citySize = citySize;
+    }
+
+    public int getCitySize() {
+        return citySize;
     }
 
     public int getId() {

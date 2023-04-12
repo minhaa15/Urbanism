@@ -28,6 +28,7 @@ public class GraphicRenderer implements Renderer {
         canvas.setStroke(stroke);
         drawPolygons(aMesh,canvas);
         drawSegments(aMesh, canvas);
+        drawVertex(aMesh, canvas);
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
@@ -57,6 +58,29 @@ public class GraphicRenderer implements Renderer {
             Line2D line = new Line2D.Double(new Point2D.Double(v1x, v1y), new Point2D.Double(v2x, v2y));
             canvas.draw(line);
         }   
+    }
+
+    private void drawVertex(Mesh aMesh,Graphics2D canvas){
+        List <Vertex> vertexList = aMesh.getVerticesList();
+
+        for(Vertex v : vertexList){
+            Optional<Color> fill = new ColorProperty().extract(v.getPropertiesList());
+
+            int citySize = extractCity(v.getPropertiesList());
+
+            if(citySize == 0) {
+                continue;
+            }
+
+            canvas.setStroke(new BasicStroke(0.2f));
+            canvas.setColor(fill.get());
+
+            Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-1.5f, (float) v.getY()-1.5f, citySize*5, citySize*5);
+
+            canvas.fill(circle);
+        }
+
+
     }
 
     private void drawAPolygon(Structs.Polygon p, Mesh aMesh, Graphics2D canvas) {
@@ -94,6 +118,20 @@ public class GraphicRenderer implements Renderer {
         if (val == null)
             return 1;
         
+        return Integer.parseInt(val);
+    }
+
+    private int extractCity(List<Property> properties) {
+        String val = null;
+        for(Property p: properties) {
+            if (p.getKey().equals("SizeOfCity")) {
+
+                val = p.getValue();
+            }
+        }
+        if (val == null)
+            return 0;
+
         return Integer.parseInt(val);
     }
 }

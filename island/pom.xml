@@ -28,11 +28,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>io.github.ace-design</groupId>
             <artifactId>pathfinder</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.locationtech.jts</groupId>
